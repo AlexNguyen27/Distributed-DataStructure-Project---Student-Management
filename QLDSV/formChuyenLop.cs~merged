@@ -1,0 +1,159 @@
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.Text;
+using System.Linq;
+using System.Threading.Tasks;
+using System.Windows.Forms;
+using DevExpress.XtraEditors;
+
+namespace QLDSV
+{
+<<<<<<< HEAD
+    public partial class formChuyenLop : DevExpress.XtraEditors.XtraForm
+    {
+        public formChuyenLop()
+        {
+            InitializeComponent();
+        }
+=======
+    public partial class FormChuyenLop : DevExpress.XtraEditors.XtraForm
+    {
+        public FormChuyenLop()
+        {
+            InitializeComponent();
+        }
+
+        private void sINHVIENBindingNavigatorSaveItem_Click(object sender, EventArgs e)
+        {
+            this.Validate();
+            this.sINHVIENBindingSource.EndEdit();
+            this.tableAdapterManager.UpdateAll(this.qLDSVROOT);
+
+        }
+>>>>>>> 6505e52437fb2b1945ad23835d3f5ff7281e2dd0
+        public void enableInput()
+        {
+            txtMaSV.Enabled = false;
+            txtHo.Enabled = false;
+<<<<<<< HEAD
+            txtTen.Enabled = false;
+=======
+            txtTen.Enabled =  false;
+>>>>>>> 6505e52437fb2b1945ad23835d3f5ff7281e2dd0
+            txtMaLop.Enabled = false;
+            comboNgaySinh.Enabled = false;
+            txtNoiSinh.Enabled = false;
+            txtDiaChi.Enabled = false;
+            cbPhai.Enabled = false;
+            cbNghiHoc.Enabled = false;
+            txtTL.Enabled = false;
+        }
+        public void info()
+        {
+<<<<<<< HEAD
+            txtMaSV.Text = formSinhVien.saveInfo.maSV;
+            txtHo.Text = formSinhVien.saveInfo.ho;
+            txtTen.Text = formSinhVien.saveInfo.ten;
+            txtMaLop.Text = formSinhVien.saveInfo.maLop;
+            comboNgaySinh.Text = formSinhVien.saveInfo.ngaySinh;
+            txtNoiSinh.Text = formSinhVien.saveInfo.noiSinh;
+            txtDiaChi.Text = formSinhVien.saveInfo.diaChi;
+            cbPhai.Checked = formSinhVien.saveInfo.phai;
+            cbNghiHoc.Checked = formSinhVien.saveInfo.nghiHoc;
+=======
+            txtMaSV.Text = formSinhVienV2.saveInfo.maSV;
+            txtHo.Text = formSinhVienV2.saveInfo.ho;
+            txtTen.Text = formSinhVienV2.saveInfo.ten;
+            txtMaLop.Text = formSinhVienV2.saveInfo.maLop;
+            comboNgaySinh.Text = formSinhVienV2.saveInfo.ngaySinh;
+            txtNoiSinh.Text = formSinhVienV2.saveInfo.noiSinh;
+            txtDiaChi.Text = formSinhVienV2.saveInfo.diaChi;
+            cbPhai.Checked = formSinhVienV2.saveInfo.phai;
+            cbNghiHoc.Checked = formSinhVienV2.saveInfo.nghiHoc;
+>>>>>>> 6505e52437fb2b1945ad23835d3f5ff7281e2dd0
+            txtTL.Text = txtMaLop.Text;
+        }
+        public void cmdSinhVien(String maSV, String ho, String ten, String maLop,
+                               Boolean checkBoxPhai, String comboNgaySinh, String noiSinh,
+                               String diaChi, Boolean checkboxNghiHoc)
+        {
+            if (Program.conn.State == ConnectionState.Closed)
+                Program.conn.Open();
+            try
+            {
+                Program.sqlcmd.Parameters.Add("@MASV", SqlDbType.NChar).Value = maSV;
+                Program.sqlcmd.Parameters.Add("@HO", SqlDbType.NVarChar).Value = ho;
+                Program.sqlcmd.Parameters.Add("@TEN", SqlDbType.NVarChar).Value = ten;
+                Program.sqlcmd.Parameters.Add("@MALOP", SqlDbType.NChar).Value = maLop;
+                Program.sqlcmd.Parameters.Add("@PHAI", SqlDbType.Bit).Value = checkBoxPhai ? 1 : 0;
+                Program.sqlcmd.Parameters.Add("@NGAYSINH", SqlDbType.NVarChar).Value = comboNgaySinh;
+                Program.sqlcmd.Parameters.Add("@NOISINH", SqlDbType.NVarChar).Value = noiSinh;
+                Program.sqlcmd.Parameters.Add("@DIACHI", SqlDbType.NVarChar).Value = diaChi;
+                Program.sqlcmd.Parameters.Add("@NGHIHOC", SqlDbType.Bit).Value = checkboxNghiHoc ? 1 : 0;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Lỗi ghi sinh viên.\n" + ex.Message, "", MessageBoxButtons.OK);
+                return;
+            }
+        }
+<<<<<<< HEAD
+
+        private void formChuyenLop_Load(object sender, EventArgs e)
+=======
+        private void FormChuyenLop_Load(object sender, EventArgs e)
+>>>>>>> 6505e52437fb2b1945ad23835d3f5ff7281e2dd0
+        {
+            // TODO: This line of code loads data into the 'qLDSVROOT.LOP' table. You can move, or remove it, as needed.
+            this.lOPTableAdapter.Connection.ConnectionString = Program.connstr;
+            this.lOPTableAdapter.Fill(this.qLDSVROOT.LOP);
+<<<<<<< HEAD
+=======
+            // TODO: This line of code loads data into the 'qLDSVROOT.V_DS_PHANMANH' table. You can move, or remove it, as needed.
+           
+
+>>>>>>> 6505e52437fb2b1945ad23835d3f5ff7281e2dd0
+            enableInput();
+            info();
+            toolStripStatusMaSV.Text = "MaSV: " + txtMaSV.Text;
+            toolStripStatusHoTen.Text = "Họ Tên: " + txtHo.Text + " " + txtTen.Text;
+        }
+
+        private void btnChuyenLop_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                String maLop = comboMaLop.SelectedValue.ToString();
+                String updateSinhVien = "SP_UpdateSinhVien";
+                Program.sqlcmd = Program.conn.CreateCommand();
+                Program.sqlcmd.CommandType = CommandType.StoredProcedure;
+                Program.sqlcmd.CommandText = updateSinhVien;
+                cmdSinhVien(txtMaSV.Text, txtHo.Text, txtTen.Text, maLop, cbPhai.Checked,
+                       comboNgaySinh.Text, txtNoiSinh.Text, txtDiaChi.Text, cbNghiHoc.Checked);
+                Program.sqlcmd.ExecuteNonQuery();
+                Program.conn.Close();
+                MessageBox.Show("Chuyển lớp thành công!", "", MessageBoxButtons.OK);
+<<<<<<< HEAD
+                this.Hide();
+                this.Close();
+                formSinhVien frm = new formSinhVien();
+                frm.formSinhVien_Load(sender, e);
+=======
+                this.sINHVIENBindingSource.EndEdit();
+                this.Hide();
+                this.Close();
+                formSinhVienV2 frm = new formSinhVienV2();
+                frm.formSinhVienV2_Load(sender, e);
+>>>>>>> 6505e52437fb2b1945ad23835d3f5ff7281e2dd0
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Lỗi chuyển lớp sinh viên.\n" + ex.Message, "", MessageBoxButtons.OK);
+                return;
+            }
+        }
+    }
+}
